@@ -7,10 +7,10 @@
   <title><?= $this->title?></title>
 </head>
 <body>
-  <header>ШАПКА САЙТА</header>
+  <header>HEADER</header>
 
   <?= $this->content ?>
 
-  <footer>ПОДВАЛ САЙТА</footer>
+  <footer>FOOTER</footer>
 </body>
 </html>
