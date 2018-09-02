@@ -1,21 +1,22 @@
 <?
+include_once ROOT . '/models/ModelNews.php';
 include_once ROOT . '/controllers/Controller.php';
 
 class MainController extends Controller {
+  private $newsModel;
 
   public function __construct() {
     parent::__construct();
+    $this->newsModel = new ModelNews();
   }
 
-  public function actionIndex($category = NULL) {
+  public function actionIndex() {
     try {
-      $main = $this->view;
-      $main->title = 'Main Page';
-      $main->linkToNewsPages = '/news/';
-      $main->textToNewsPages = 'News page';
+      $this->view->lastNews = $this->newsModel->getLastNews();
+      $this->view->topNews = $this->newsModel->getTopNews();
+      // var_dump($this->view->topNews);die;
 
-
-      $this->view->generate('template_view.php', 'main/index.php');
+      $this->view->generate('template_view.phtml', 'main/index.phtml');
     } catch (Exception $e) {
       echo $e->getMessage();
     }

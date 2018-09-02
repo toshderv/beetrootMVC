@@ -16,7 +16,7 @@ class NewsController extends Controller {
       $this->view->news = $this->newsModel->getNewsList();
       // var_dump($this->view);
 
-      $this->view->generate('template_view.php', 'news/index.php');
+      $this->view->generate('template_view.phtml', 'news/index.phtml');
     } catch (Exception $e) {
       echo $e->getMessage();
     }
