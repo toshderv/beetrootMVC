@@ -2412,7 +2412,7 @@ i {
 }
 .comment .message {
 	margin-bottom: 14px;
-	display: inline-block;
+	display: block;
 }
 /* -------------------------------- */
 /* Blog Comment Form

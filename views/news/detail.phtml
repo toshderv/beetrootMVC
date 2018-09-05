@@ -74,27 +74,29 @@ $newsDetail = $newsDetail[0];
       <!-- Reader Comments -->      
       <div class="comments">
         <h2>Комментарии к статьи</h2>
-        
-        <!-- Comment -->        
-        <div class="comment">
-          <!-- Username -->
-          <div class="username">
-            <a href="#">Джон Доу</a> пишет:
-          </div>
-          <!-- Date -->
-          <div class="date">
-            31 августа 2016
-          </div>
-          <!-- Message -->
-          <div class="message">
-            <p>Примерная структура маркетингового исследования развивает анализ рыночных цен. BTL одновременно изменяет ролевой метод изучения рынка. Каждая сфера рынка стабилизирует сублимированный инвестиционный продукт.</p>
-          </div>
-          <!-- Reply Link -->
-          <div class="link">
-            <a href="#">Ответить</a>
-          </div>
-        </div>        
-        <!-- END Comment -->        
+
+        <?foreach ($this->comments as $value) {?>
+          <!-- Comment -->        
+          <div class="comment">
+            <!-- Username -->
+            <div class="username">
+              <a href="#"><?= $value['CommentName']?></a> пишет:
+            </div>
+            <!-- Date -->
+            <div class="date">
+              <?= date('d F Y', strtotime($value['CommentDate']))?>
+            </div>
+            <!-- Message -->
+            <div class="message">
+              <p><?= $value['CommentBody']?></p>
+            </div>
+            <!-- Reply Link -->
+            <div class="link">
+              <a href="#">Ответить</a>
+            </div>
+          </div>        
+          <!-- END Comment -->
+        <?}?>        
 
       </div>      
       <!-- END Reader Comments -->
@@ -106,17 +108,13 @@ $newsDetail = $newsDetail[0];
       <!-- Post Comment Form -->      
       <div class="comment-form">
         <h2>Оставить комментарий</h2>
-        <form id="comment-form" name="comment-form" method="post" action="#">
+        <form id="comment-form" name="comment-form" method="post" action="/news/<?= $newsDetail['cat_code']?>/<?= $newsDetail['news_id']?>">
           <!-- Textbox -->
-          <input type="text" name="name" placeholder="Имя *">
-          <!-- Textbox -->
-          <input type="text" name="email" placeholder="Email *">
-          <!-- Textbox -->
-          <input type="text" name="website" placeholder="Тема *">
+          <input type="text" name="name" placeholder="Имя *" required>
           <!-- Comment box -->
-          <textarea name="comment" placeholder="Сообщение *"></textarea>
+          <textarea name="comment" maxlength="200" placeholder="Сообщение * (макс. 200симв.)" required></textarea>
           <!-- Submit Button -->
-          <input type="submit" class="accent" value="Готово">
+          <input type="submit" name="submitComment" class="accent" value="Готово">
         </form>
       </div>      
       <!-- END Post Comment Form -->

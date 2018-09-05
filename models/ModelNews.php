@@ -91,6 +91,18 @@ class ModelNews extends Db {
     return $result->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  public function getComments($id) {
+    $comments = $this->connection->prepare(
+      "SELECT *
+          FROM Comments
+          WHERE CommentNewsID = :id"
+    );
+    $comments->bindParam(':id', $id, PDO::PARAM_INT);
+    $comments->execute();
+
+    return $comments->fetchAll(PDO::FETCH_ASSOC);
+  }
+
   public function setViewCount($id) {
     $increment = 1;
 
@@ -101,6 +113,31 @@ class ModelNews extends Db {
     );
     $view->bindParam(':increment', $increment, PDO::PARAM_INT);
     $view->bindParam(':id', $id, PDO::PARAM_INT);
+    $view->execute();
+  }
+
+  public function setComment($id, array $post = []) {
+    $name = $post['name'];
+    $name = trim($name);
+    $name = substr($name, 0, 20);
+    $name = preg_replace("/[a-z0-9]/i", "", $name);
+    $name = htmlspecialchars($name);
+    $name = stripslashes($name);
+
+    $body = $post['comment'];
+    $body = trim($body);
+    $body = substr($body, 0, 200);
+    $body = preg_replace("/[a-z0-9]/i", "", $body);
+    $body = htmlspecialchars($body);
+    $body = stripslashes($body);
+
+    $view = $this->connection->prepare(
+      "INSERT INTO Comments (CommentNewsID, CommentName, CommentBody)
+        VALUES (:id, :nameAuthor, :body)"
+    );
+    $view->bindParam(':id', $id, PDO::PARAM_INT);
+    $view->bindParam(':nameAuthor', $name, PDO::PARAM_STR);
+    $view->bindParam(':body', $body, PDO::PARAM_STR);
     $view->execute();
   }
 }

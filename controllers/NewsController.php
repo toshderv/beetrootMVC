@@ -37,8 +37,15 @@ class NewsController extends Controller {
       $this->view->lastNews = $this->newsModel->getLastNews();
       $this->view->topNews = $this->newsModel->getTopNews($limitTopNews);
 
-      // Add views
+      // Set views
       $this->newsModel->setViewCount($id);
+      // Get Comments
+      $this->view->comments = $this->newsModel->getComments($id);
+      // Set Comments
+      if (isset($_POST['submitComment'])) {
+        // var_dump($_POST);die;
+        $this->newsModel->setComment($id, $_POST);
+      }
 
       // var_dump($this->view);die;
 
