@@ -74,29 +74,34 @@ $newsDetail = $newsDetail[0];
       <!-- Reader Comments -->      
       <div class="comments">
         <h2>Комментарии к статьи</h2>
-
-        <?foreach ($this->comments as $value) {?>
-          <!-- Comment -->        
+        <?if ($this->comments) {?>
+          <?foreach ($this->comments as $value) {?>
+            <!-- Comment -->        
+            <div class="comment">
+              <!-- Username -->
+              <div class="username">
+                <a href="#"><?= $value['CommentName']?></a> пишет:
+              </div>
+              <!-- Date -->
+              <div class="date">
+                <?= date('d F Y', strtotime($value['CommentDate']))?>
+              </div>
+              <!-- Message -->
+              <div class="message">
+                <p><?= $value['CommentBody']?></p>
+              </div>
+              <!-- Reply Link -->
+              <div class="link">
+                <a href="#">Ответить</a>
+              </div>
+            </div>        
+            <!-- END Comment -->
+          <?}?>          
+        <?} else {?>
           <div class="comment">
-            <!-- Username -->
-            <div class="username">
-              <a href="#"><?= $value['CommentName']?></a> пишет:
-            </div>
-            <!-- Date -->
-            <div class="date">
-              <?= date('d F Y', strtotime($value['CommentDate']))?>
-            </div>
-            <!-- Message -->
-            <div class="message">
-              <p><?= $value['CommentBody']?></p>
-            </div>
-            <!-- Reply Link -->
-            <div class="link">
-              <a href="#">Ответить</a>
-            </div>
-          </div>        
-          <!-- END Comment -->
-        <?}?>        
+            <p>Нет комментариев</p>
+          </div>
+        <?}?>
 
       </div>      
       <!-- END Reader Comments -->

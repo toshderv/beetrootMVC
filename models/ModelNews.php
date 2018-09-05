@@ -103,6 +103,19 @@ class ModelNews extends Db {
     return $comments->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  public function getLastComments() {
+    $countLastComments = 3;
+    $comments = $this->connection->prepare(
+      "SELECT *
+          FROM Comments
+          LIMIT :count"
+    );
+    $comments->bindParam(':count', $countLastComments, PDO::PARAM_INT);
+    $comments->execute();
+
+    return $comments->fetchAll(PDO::FETCH_ASSOC);
+  }
+
   public function setViewCount($id) {
     $increment = 1;
 

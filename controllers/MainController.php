@@ -14,6 +14,7 @@ class MainController extends Controller {
     try {
       $this->view->lastNews = $this->newsModel->getLastNews();
       $this->view->topNews = $this->newsModel->getTopNews();
+      $this->view->lastComments = $this->newsModel->getLastComments();
       // var_dump($this->view->topNews);die;
 
       $this->view->generate('template_view.phtml', 'main/index.phtml');

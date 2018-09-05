@@ -127,49 +127,24 @@
       <div class="carousel">
         <ul id="testimonials-carousel" class="slider-container">
 
-
-          <!-- Testimonial 1 -->
-
-          <li class="column-one-fourth">
-            <!-- Text -->
-            <div class="testimonial-text">
-              <p>Тактика выстраивания отношений с коммерсчекими агентами стремительно развивает стратегический нестандартный
-                подход.</p>
-            </div>
-            <!-- Name -->
-            <div class="testimonial-name">
-              Джон Доу
-            </div>
-            <!-- Company URL -->
-            <div class="testimonial-link">
-              <a href="#">Посетитель</a>
-            </div>
-          </li>
-
-          <!-- END Testimonial 1 -->
-
-
-
-          <!-- Testimonial 2 -->
-
-          <li class="column-one-fourth">
-            <!-- Text -->
-            <div class="testimonial-text">
-              <p>Тактика выстраивания отношений с коммерсчекими агентами стремительно развивает стратегический нестандартный
-                подход.</p>
-            </div>
-            <!-- Name -->
-            <div class="testimonial-name">
-              Джон Доу
-            </div>
-            <!-- Company URL -->
-            <div class="testimonial-link">
-              <a href="#">Посетитель</a>
-            </div>
-          </li>
-
-          <!-- END Testimonial 2 -->
-
+          <?foreach ($this->lastComments as $value) {?>
+            <!-- Testimonial -->
+            <li class="column-one-fourth">
+              <!-- Text -->
+              <div class="testimonial-text">
+                <p><?= $value['CommentBody']?></p>
+              </div>
+              <!-- Name -->
+              <div class="testimonial-name">
+                <?= $value['CommentName']?>
+              </div>
+              <!-- Company URL -->
+              <div class="testimonial-link">
+                <a href="#">Посетитель</a>
+              </div>
+            </li>
+            <!-- END Testimonial -->
+          <?}?>
 
         </ul>
       </div>
