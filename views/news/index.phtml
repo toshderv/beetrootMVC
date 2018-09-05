@@ -1,11 +1,104 @@
-<h1>News page!</h1>
+<div class="main-content-inner content-width">
 
-<div class="news-list">
-  <?foreach ($this->news as $key => $value) {?>
-    <div class="news item">
-      <h2><?= $value['news_title']?></h2>
-      <time datetime="<?= $value['news_date']?>"><?= $value['news_date']?></time>
-      <div class="preview-text"><?= $value['news_short_content']?></div>
+  <!-- Main Column / Sidebar -->
+  <div class="column-container">
+
+    <!-- Main Column -->
+    <div class="column-three-qtr">
+
+      <?foreach ($this->news as $value) {?>        
+        <!-- Blog Post -->
+        <div class="blog-post">
+          <!-- Title -->
+          <h1><a href="/news/<?= $value['cat_code']?>/<?= $value['news_id']?>"><?= $value['news_title']?></a></h1>
+          <!-- Meta -->
+          <div class="blog-meta">
+            <div class="meta-item">
+              <div class="meta-title published">Дата:</div><a href="#"><?= date('d F Y', strtotime($value['news_date']))?></a></div>
+            <div class="meta-item">
+              <div class="meta-title views">Просмотры:</div><a href="#"><?= $value['news_views']?></a></div>
+          </div>
+          <!-- Image -->
+          <a href="/news/<?= $value['cat_code']?>/<?= $value['news_id']?>" class="media image-link"><img alt="" src="/public/images/placeholders/preview9.jpg" class="fullwidth"></a>
+          <!-- Excerpt -->
+          <div class="blog-content">
+            <p><?= $value['news_short_content']?></p>
+            <!-- Read More Button -->
+            <a href="/news/<?= $value['cat_code']?>/<?= $value['news_id']?>" class="button accent">Читать далее</a>
+          </div>
+        </div>
+        <!-- END Blog Post -->
+      <?}?>
+
+      <!-- Navigation -->
+      <div class="blog-nav">
+        <a href="#" class="back">Назад</a>
+        <a href="#" class="next">Вперед</a>
+      </div>
+      <!-- END Navigation -->
     </div>
-  <?}?>
+    <!-- END Main Column -->
+
+    <!-- Sidebar -->
+    <div class="column-one-fourth sidebar">
+
+      <!-- Categories -->
+      <div class="sidebar-widget categories">
+        <!-- Title -->
+        <h3>Категории новостей</h3>
+        <!-- Category Links -->
+        <?foreach ($this->allCategories as $value) {?>
+          <a href="/news/<?= $value['cat_code']?>/"><?= $value['cat_name']?></a>
+        <?}?>
+      </div>
+      <!-- END Categories -->
+
+      <!-- Latest Project -->
+      <div class="sidebar-widget project">
+        <!-- Title -->
+        <h3>Новость дня</h3>
+        <?foreach ($this->topNews as $value) {?>          
+          <!-- Image -->
+          <a href="#" class="image-link"><img alt="" src="/public/images/placeholders/preview4.jpg" class="fullwidth"></a>
+          <!-- Project Title -->
+          <h3 class="sub-title"><a href="/news/<?= $value['cat_code']?>/<?= $value['news_id']?>"><?= $value['news_title']?></a></h3>
+          <!-- Tags -->
+          <div class="tags"><?= $value['cat_name']?></div>
+        <?}?>
+      </div>
+      <!-- END Latest Project -->
+
+      <!-- Popular Posts -->
+      <div class="sidebar-widget posts">
+        <!-- Title -->
+        <h3>Последнее</h3>
+
+        <?foreach ($this->lastNews as $value) {?>
+          <!-- Post -->
+          <div class="post">
+            <!-- Image Column -->
+            <div class="img-column">
+              <a href="/news/<?= $value['cat_code']?>/<?= $value['news_id']?>" class="image-link mini">
+                <img alt="" src="/public/images/placeholders/preview9-mini.jpg" class="fullwidth"></a>
+            </div>
+            <!-- Content Column -->
+            <div class="content-column">
+              <!-- Post Title -->
+              <h3 class="sub-title"><a href="/news/<?= $value['cat_code']?>/<?= $value['news_id']?>"><?= $value['news_title']?></a></h3>
+              <!-- Date -->
+              <div class="date"><?= date('d F Y', strtotime($value['news_date']))?></div>
+            </div>
+          </div>
+          <!-- END Post -->
+        <?}?>
+
+      </div>
+      <!-- END Popular Posts -->
+
+    </div>
+    <!-- END Sidebar -->
+
+  </div>
+  <!-- END Main Column / Sidebar -->
+
 </div>

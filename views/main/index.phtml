@@ -68,10 +68,10 @@
       <?foreach ($this->topNews as $news) {?>
         <li class="column-one-fourth portfolio-item branding">
           <!-- Image -->
-          <a href="#" class="image-link"><img alt="" src="/public/images/placeholders/preview1.jpg" class="fullwidth">
+          <a href="/news/<?= $news['cat_code']?>/<?= $news['news_id']?>" class="image-link"><img alt="" src="/public/images/placeholders/preview1.jpg" class="fullwidth">
           </a>
           <!-- Title -->
-          <h3><a href="#"><?= $news['news_title']?></a></h3>
+          <h3><a href="/news/<?= $news['cat_code']?>/<?= $news['news_id']?>"><?= $news['news_title']?></a></h3>
           <!-- Tags -->
           <div class="tags"><?= $news['cat_name']?></div>
         </li>
@@ -94,17 +94,17 @@
           <?foreach ($this->lastNews as $news) {?>
             <li class="column-one-fourth portfolio-item branding">
               <!-- Image -->
-              <a href="blog-post.html" class="image-link">
+              <a href="/news/<?= $news['cat_code']?>/<?= $news['news_id']?>" class="image-link">
                 <img alt="" src="/public/images/placeholders/preview9.jpg" class="fullwidth">
               </a>
               <!-- Title -->
-              <h3><a href="blog-post.html"><?= $news['news_title']?></a></h3>
+              <h3><a href="/news/<?= $news['cat_code']?>/<?= $news['news_id']?>"><?= $news['news_title']?></a></h3>
               <!-- Date -->
-              <div class="date"><?= $news['news_date']?></div>
+              <div class="date"><?= date('d F Y', strtotime($news['news_date']))?></div>
               <!-- Excerpt -->
               <p><?= $news['news_short_content']?></p>
               <!-- Read More Link -->
-              <a href="blog-post.html">Подробнее</a>
+              <a href="/news/<?= $news['cat_code']?>/<?= $news['news_id']?>">Подробнее</a>
             </li>
           <?}?>
 

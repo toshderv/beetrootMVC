@@ -6,47 +6,101 @@ class ModelNews extends Db {
     parent::__construct();
   }
 
-  public function getNewsById($id) {
-    // $result = $this->connection->query(
-    //   "SELECT *
-    //     FROM news
-    //     WHERE news_id = $id
-    //     ORDER BY news_date DESC
-    //     LIMIT 10"
-    // );
+  public function getCategoriesList() {
+    $categoriesList = $this->connection->query(
+      "SELECT *
+        FROM category"
+    );
 
-    // return $result->fetchAll(PDO::FETCH_ASSOC);
+    return $categoriesList->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function getNewsList() {
-    $result = $this->connection->query(
-      "SELECT *
-        FROM news
-        ORDER BY news_date DESC"
-    );
+  public function getNewsList($category = NULL) {
+    if (is_null($category)) {
+      $result = $this->connection->query(
+        "SELECT *
+          FROM news
+          LEFT JOIN category ON news.news_cat_id = category.cat_id
+          ORDER BY news_date DESC"
+      );
+    } else {
+      $result = $this->connection->prepare(
+        "SELECT *
+          FROM news
+          LEFT JOIN category ON news.news_cat_id = category.cat_id
+          WHERE cat_code = :category
+          ORDER BY news_date DESC"
+      );
+      $result->bindParam(':category', $category, PDO::PARAM_STR);
+      $result->execute();
+    }
 
     return $result->fetchAll(PDO::FETCH_ASSOC);
   }
 
   public function getLastNews($count = 3) {
-    $sth = $this->connection->prepare('SELECT * FROM `news` LIMIT :count');
+    $sth = $this->connection->prepare('SELECT *
+      FROM `news`
+      LEFT JOIN category
+      ON news.news_cat_id = category.cat_id
+      ORDER BY news_date DESC
+      LIMIT :count');
     $sth->bindParam(':count', $count, PDO::PARAM_INT);
     $sth->execute();
 
     return $sth->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function getTopNews() {
+  public function getTopNews($count = 10) {
 
     $sth = $this->connection->prepare('
       SELECT *
       FROM news
       LEFT JOIN category ON news.news_cat_id = category.cat_id
       WHERE `news_day` = :newsTop
+      ORDER BY news_date DESC
+      LIMIT :count
     ');
     $sth->bindValue(':newsTop', self::TOP_NEWS, PDO::PARAM_INT);
+    $sth->bindValue(':count', $count, PDO::PARAM_INT);
     $sth->execute();
 
     return $sth->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getNewsDetail($id = NULL) {
+    if (is_null($id)) {
+      $result = $this->connection->query(
+        "SELECT *
+          FROM news
+          LEFT JOIN category ON news.news_cat_id = category.cat_id
+          ORDER BY news_date DESC
+          LIMIT 1"
+      );
+    } else {
+      $result = $this->connection->prepare(
+        "SELECT *
+          FROM news
+          LEFT JOIN category ON news.news_cat_id = category.cat_id
+          WHERE news_id = :id"
+      );
+      $result->bindParam(':id', $id, PDO::PARAM_INT);
+      $result->execute();
+    }
+
+    return $result->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function setViewCount($id) {
+    $increment = 1;
+
+    $view = $this->connection->prepare(
+      "UPDATE news
+        SET news_views = news_views + :increment
+        WHERE news_id = :id;"
+    );
+    $view->bindParam(':increment', $increment, PDO::PARAM_INT);
+    $view->bindParam(':id', $id, PDO::PARAM_INT);
+    $view->execute();
   }
 }
